@@ -1,0 +1,81 @@
+policy_module(Crowncoin, 1.100.1)
+
+########################################
+#
+# Declarations
+#
+
+type Crowncoin_t;
+type Crowncoin_exec_t;
+init_daemon_domain(Crowncoin_t, Crowncoin_exec_t)
+
+permissive Crowncoin_t;
+
+type Crowncoin_initrc_exec_t;
+init_script_file(Crowncoin_initrc_exec_t)
+
+type Crowncoin_conf_t;
+files_type(Crowncoin_conf_t)
+
+type Crowncoin_var_lib_t;
+files_type(Crowncoin_var_lib_t)
+
+type Crowncoin_var_run_t;
+files_type(Crowncoin_var_run_t)
+
+type Crowncoin_port_t;
+corenet_port(Crowncoin_port_t)
+
+########################################
+#
+# Crowncoin local policy
+#
+allow Crowncoin_t self:process { fork };
+
+allow Crowncoin_t self:fifo_file rw_fifo_file_perms;
+allow Crowncoin_t self:unix_stream_socket create_stream_socket_perms;
+
+manage_dirs_pattern(Crowncoin_t, Crowncoin_conf_t, Crowncoin_conf_t)
+manage_files_pattern(Crowncoin_t, Crowncoin_conf_t, Crowncoin_conf_t)
+
+manage_dirs_pattern(Crowncoin_t, Crowncoin_var_lib_t, Crowncoin_var_lib_t)
+manage_files_pattern(Crowncoin_t, Crowncoin_var_lib_t, Crowncoin_var_lib_t)
+files_var_lib_filetrans(Crowncoin_t, Crowncoin_var_lib_t, { dir file })
+
+manage_dirs_pattern(Crowncoin_t, Crowncoin_var_run_t, Crowncoin_var_run_t)
+manage_files_pattern(Crowncoin_t, Crowncoin_var_run_t, Crowncoin_var_run_t)
+
+sysnet_dns_name_resolve(Crowncoin_t)
+corenet_all_recvfrom_unlabeled(Crowncoin_t)
+
+allow Crowncoin_t self:tcp_socket create_stream_socket_perms;
+corenet_tcp_sendrecv_generic_if(Crowncoin_t)
+corenet_tcp_sendrecv_generic_node(Crowncoin_t)
+corenet_tcp_sendrecv_all_ports(Crowncoin_t)
+corenet_tcp_bind_generic_node(Crowncoin_t)
+
+gen_require(`
+    type Crowncoin_port_t;
+')
+allow Crowncoin_t Crowncoin_port_t:tcp_socket name_bind;
+
+gen_require(`
+    type Crowncoin_port_t;
+')
+allow Crowncoin_t Crowncoin_port_t:tcp_socket name_connect;
+
+domain_use_interactive_fds(Crowncoin_t)
+
+files_read_etc_files(Crowncoin_t)
+
+miscfiles_read_localization(Crowncoin_t)
+
+sysnet_dns_name_resolve(Crowncoin_t)
+
+allow Crowncoin_t Crowncoin_exec_t:file execute_no_trans;
+allow Crowncoin_t self:process setsched;
+corecmd_exec_ls(Crowncoin_t)
+corenet_tcp_connect_http_port(Crowncoin_t)
+dev_read_urand(Crowncoin_t)
+fs_getattr_xattr_fs(Crowncoin_t)
+kernel_read_system_state(Crowncoin_t)

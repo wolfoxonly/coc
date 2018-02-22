@@ -1,0 +1,25 @@
+# It is not recommended to modify this file in-place, because it will
+# be overwritten during package upgrades. If you want to add further
+# options or overwrite existing ones then use
+# $ systemctl edit Crowncoind.service
+# See "man systemd.service" for details.
+
+# Note that almost all daemon options could be specified in
+# /etc/Crowncoin/Crowncoin.conf
+
+[Unit]
+Description=Crowncoin daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/Crowncoind -daemon -conf=/etc/Crowncoin/Crowncoin.conf -pid=/run/Crowncoind/Crowncoind.pid
+# Creates /run/Crowncoind owned by Crowncoin
+RuntimeDirectory=Crowncoind
+User=Crowncoin
+Type=forking
+PIDFile=/run/Crowncoind/Crowncoind.pid
+Restart=on-failure
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

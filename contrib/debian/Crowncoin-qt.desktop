@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Crowncoin Core
+Comment=Connect to the Crowncoin P2P Network
+Comment[de]=Verbinde mit dem Crowncoin peer-to-peer Netzwerk
+Comment[fr]=Crowncoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Crowncoin, eşten eşe kriptografik sanal para birimi
+Exec=Crowncoin-qt %u
+Terminal=false
+Type=Application
+Icon=Crowncoin128
+MimeType=x-scheme-handler/Crowncoin;
+Categories=Office;Finance;
+StartupWMClass=Crowncoin-qt

@@ -1,0 +1,8 @@
+/usr/bin/Crowncoin-cli		--	gen_context(system_u:object_r:Crowncoin_exec_t,s0)
+/usr/sbin/Crowncoind		--	gen_context(system_u:object_r:Crowncoin_exec_t,s0)
+/usr/lib(64)?/Crowncoin/Crowncoind		--	gen_context(system_u:object_r:Crowncoin_exec_t,s0)
+
+/etc/Crowncoin(/.*)?		gen_context(system_u:object_r:Crowncoin_conf_t,s0)
+/var/lib/Crowncoin(/.*)?		gen_context(system_u:object_r:Crowncoin_var_lib_t,s0)
+
+(/var)?/run/Crowncoind(/.*)?   gen_context(system_u:object_r:Crowncoin_var_run_t,s0)
