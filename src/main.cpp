@@ -3400,7 +3400,7 @@ bool InitBlockIndex() {
         block.nTime    = 1519213742;// 1345084287;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
       //  block.nNonce   = 2179302059u;
-        block.nNonce = ByteReverse(36860305XX);//<zxb>
+        block.nNonce = ByteReverse(36860305);//<zxb>
         if (fTestNet)
         {
             block.nTime    = 1345090000;
