@@ -5201,7 +5201,7 @@ CBlockTemplate* CreateNewBlock(CReserveKey& reservekey, CWallet* pwallet, bool f
            }
            else
            {
-		int year =  std::ceil(pindexBest->nHeight * 300 * 24 / (24 * 60 / 2 * 365));//zxb产量衰减部分,加速300*24倍
+		int year =  std::ceil(pindexBest->nHeight / (24 * 60 / 2 * 365));//zxb产量衰减部分,加速300*24倍
 //  float rate = 15*pow(0.66,year);//zxb
              pblock->vtx[0].vout[0].nValue = reward * pow(0.66,year);
            }
