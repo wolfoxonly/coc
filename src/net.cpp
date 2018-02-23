@@ -349,7 +349,7 @@ bool GetMyExternalIP2(const CService& addrConnect, const char* pszGet, const cha
     return error("GetMyExternalIP() : connection closed");
 }
 
-bool GetMyExternalIP(CNetAddr& ipRet)
+bool GetMyExternalIP(CNetAddr& ipRet)//<zxb>
 {
     CService addrConnect;
     const char* pszGet;

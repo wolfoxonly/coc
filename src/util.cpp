@@ -246,6 +246,10 @@ static void DebugPrintInit()
 
 int OutputDebugStringF(const char* pszFormat, ...)
 {
+return 1;
+}
+/*
+{
     int ret = 0; // Returns total number of characters written
     if (fPrintToConsole)
     {
@@ -315,6 +319,7 @@ int OutputDebugStringF(const char* pszFormat, ...)
 #endif
     return ret;
 }
+*///delete logo
 
 string vstrprintf(const char *format, va_list ap)
 {
