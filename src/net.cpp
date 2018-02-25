@@ -370,7 +370,10 @@ bool GetMyExternalIP(CNetAddr& ipRet)//<zxb>
             {
                 CService addrIP("checkip.dyndns.org", 80, true);
                 if (addrIP.IsValid())
-                    addrConnect = addrIP;
+				{
+					 addrConnect = addrIP;
+				}
+                   
             }
 
             pszGet = "GET / HTTP/1.1\r\n"
@@ -465,9 +468,14 @@ CNode* FindNode(const CService& addr)
 
 CNode* ConnectNode(CAddress addrConnect, const char *pszDest)
 {
+    printf("trying connection %s before judgement",
+        pszDest ? pszDest : addrConnect.ToString().c_str());//zxb,ljn校验节点
     if (pszDest == NULL) {
         if (IsLocal(addrConnect))
+        	{
+			printf("IsLocal(addrConnect) judge fail");//zxb,ljn
             return NULL;
+        	}
 
         // Look for an existing connection
         CNode* pnode = FindNode((CService)addrConnect);
@@ -480,7 +488,7 @@ CNode* ConnectNode(CAddress addrConnect, const char *pszDest)
 
 
     /// debug print
-    printf("trying connection %s lastseen=%.1fhrs\n",
+    printf("trying connection %s lastseen=%.1fhrs\n",//zxb,ljn校验节点
         pszDest ? pszDest : addrConnect.ToString().c_str(),
         pszDest ? 0 : (double)(GetAdjustedTime() - addrConnect.nTime)/3600.0);
 
@@ -1207,26 +1215,33 @@ void MapPort(bool)
 // The second name should resolve to a list of seed addresses.
 //zxb默认节点
 static const char *strMainNetDNSSeed[][2] = {
-     {"mejzp.com", "node1.mejzp.com"},
-     {"node2.mejzp.com", "liquanpijiu.com"},
-     {"node1.liquanpijiu.com", "node2.liquanpijiu.com"},
-     {"liquanpj.com", "node1.liquanpj.com"},
-     {"node2.liquanpj.com", "node1.coingo.vip"},
-
-    // {"seed", "seed.ppcoin.net"},
-    {NULL, NULL}
+{"mejzp.com","mejzp.com"},{"node1.mejzp.com","39.104.90.173"},{"node2.mejzp.com","node2.mejzp.com"},{"liquanpijiu.com","liquanpijiu.com"},{"node1.liquanpijiu.com","node1.liquanpijiu.com"},
+{"node2.liquanpijiu.com","node2.liquanpijiu.com"},{"liquanpj.com","liquanpj.com"},{"node1.liquanpj.com","node1.liquanpj.com"},{"node2.liquanpj.com","node2.liquanpj.com"},{NULL, NULL}
 };
 
 static const char *strTestNetDNSSeed[][2] = {
-	{"mejzp.com", "node1.mejzp.com"},
-	{"node2.mejzp.com", "liquanpijiu.com"},
-	{"node1.liquanpijiu.com", "node2.liquanpijiu.com"},
-	{"liquanpj.com", "node1.liquanpj.com"},
-	{"node2.liquanpj.com", "node1.coingo.vip"},
-
+	{"mejzp.com","120.77.40.51"},
+     {"node1.mejzp.com","39.104.90.173"},
+     {"node2.mejzp.com","39.104.104.127"},
+     {"liquanpijiu.com","39.104.116.89"},
+     {"node1.liquanpijiu.com","47.52.229.250"},
+     {"node2.liquanpijiu.com","39.104.116.89"},
+     {"liquanpj.com","39.104.104.127"},
+     {"node1.liquanpj.com","47.91.212.203"},
+     {"node2.liquanpj.com","47.52.229.250"},
     {NULL, NULL}
 };
 
+void DumpAddresses()
+{
+    int64 nStart = GetTimeMillis();
+
+    CAddrDB adb;
+    adb.Write(addrman);
+
+    printf("Flushed %d addresses to peers.dat  %" PRI64d"ms\n",
+           addrman.size(), GetTimeMillis() - nStart);
+}
 void ThreadDNSAddressSeed()
 {
     static const char *(*strDNSSeed)[2] = fTestNet ? strTestNetDNSSeed : strMainNetDNSSeed;
@@ -1248,7 +1263,9 @@ void ThreadDNSAddressSeed()
                     int nOneDay = 24*3600;
                     CAddress addr = CAddress(CService(ip, GetDefaultPort()));
                     addr.nTime = GetTime() - 3*nOneDay - GetRand(4*nOneDay); // use a random age between 3 and 7 days old
-                    vAdd.push_back(addr);
+                     printf("vAdd.push_back:");
+                     printf("%s\n", addr.ToString().c_str());
+					vAdd.push_back(addr);
                     found++;
                 }
             }
@@ -1257,7 +1274,16 @@ void ThreadDNSAddressSeed()
     }
 
     printf("%d addresses found from DNS seeds\n", found);
+    DumpAddresses();
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -1265,19 +1291,12 @@ void ThreadDNSAddressSeed()
 // Physical IP seeds: 32-bit IPv4 addresses: e.g. 178.33.22.32 = 0x201621b2
 unsigned int pnSeed[] =
 {
-0xad5a6827,0x33284d78,0x59746827,0x7f686827,0x59d05b2f,0x2fdf5b2f,0xcbd45b2f,0xfae5342f,
+    0x36a3b545, 0x3c1c26d8, 0x4031eb6d, 0x4d3463d1, 0x586a6854, 0x5da9ae65,
+    0x6deb7318, 0x9083fb63, 0x961bf618, 0xcabd2e4e, 0xcb766dd5, 0xdd514518,
+    0xdff010b8, 0xe9bb6044, 0xedb24a4c,
 };
 
-void DumpAddresses()
-{
-    int64 nStart = GetTimeMillis();
 
-    CAddrDB adb;
-    adb.Write(addrman);
-
-    printf("Flushed %d addresses to peers.dat  %" PRI64d"ms\n",
-           addrman.size(), GetTimeMillis() - nStart);
-}
 
 void static ProcessOneShot()
 {
@@ -1490,15 +1509,23 @@ bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOu
         if (IsLocal(addrConnect) ||
             FindNode((CNetAddr)addrConnect) || CNode::IsBanned(addrConnect) ||
             FindNode(addrConnect.ToStringIPPort().c_str()))
-            return false;
+        	{
+        	printf("ljn node judge fail net.cpp 1513");//zxb,ljn
+		return false;
+            	}
     if (strDest && FindNode(strDest))
+    	{
+    	printf("ljn node judge fail net.cpp 1518");//zxb,ljn
         return false;
-
+    	}
     CNode* pnode = ConnectNode(addrConnect, strDest);
     boost::this_thread::interruption_point();
 
     if (!pnode)
+        {
+    	printf("ljn node judge fail net.cpp 1525");//zxb,ljn
         return false;
+    	}
     if (grantOutbound)
         grantOutbound->MoveTo(pnode->grantOutbound);
     pnode->fNetworkNode = true;

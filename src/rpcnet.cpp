@@ -88,7 +88,9 @@ Value addnode(const Array& params, bool fHelp)
     string strNode = params[0].get_str();
 
     if (strCommand == "onetry")
+		
     {
+        printf("LJN just one try rpcnet.cpp 93");//zxb ljn
         CAddress addr;
         ConnectNode(addr, strNode.c_str());
         return Value::null;

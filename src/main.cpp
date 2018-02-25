@@ -2128,7 +2128,7 @@ bool SetBestChain(CValidationState &state, CBlockIndex* pindexNew)
     nBestChainTrust = pindexNew->nChainTrust;
     nTimeBestReceived = GetTime();
     nTransactionsUpdated++;
-    printf("SetBestChain: new best=%s  height=%d  log2_trust=%.8g  moneysupply=%s  tx=%lu  date=%s progress=%f\n",
+    //printf("SetBestChain: new best=%s  height=%d  log2_trust=%.8g  moneysupply=%s  tx=%lu  date=%s progress=%f\n",//zxb去掉logo
       hashBestChain.ToString().c_str(), nBestHeight, log(nBestChainTrust.getdouble())/log(2.0), FormatMoney(pindexBest->nMoneySupply).c_str(),
       (unsigned long)pindexNew->nChainTx,
       DateTimeStrFormat("%Y-%m-%d %H:%M:%S", pindexBest->GetBlockTime()).c_str(),
