@@ -26,6 +26,8 @@
 #include <miniupnpc/upnperrors.h>
 #endif
 
+
+
 // Dump addresses to peers.dat every 15 minutes (900s)
 #define DUMP_ADDRESSES_INTERVAL 900
 #if !defined(HAVE_MSG_NOSIGNAL)
@@ -346,6 +348,7 @@ bool GetMyExternalIP2(const CService& addrConnect, const char* pszGet, const cha
         }
     }
     CloseSocket(hSocket);
+	
     return error("GetMyExternalIP() : connection closed");
 }
 
@@ -354,6 +357,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)//<zxb>
     CService addrConnect;
     const char* pszGet;
     const char* pszKeyword;
+	bool r;
 
     for (int nLookup = 0; nLookup <= 1; nLookup++)
     for (int nHost = 1; nHost <= 2; nHost++)
@@ -406,6 +410,10 @@ bool GetMyExternalIP(CNetAddr& ipRet)//<zxb>
 
         if (GetMyExternalIP2(addrConnect, pszGet, pszKeyword, ipRet))
             return true;
+		else
+			r = UPNP_GetExternalIPAddress(addrConnect, data.first.servicetype, ipRet);
+		
+		
     }
 
     return false;
@@ -1505,6 +1513,7 @@ bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOu
     // Initiate outbound network connection
     //
     boost::this_thread::interruption_point();
+	printf("ljn node judge fail net.cpp 1508");
     if (!strDest)
         if (IsLocal(addrConnect) ||
             FindNode((CNetAddr)addrConnect) || CNode::IsBanned(addrConnect) ||
