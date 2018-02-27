@@ -2128,11 +2128,14 @@ bool SetBestChain(CValidationState &state, CBlockIndex* pindexNew)
     nBestChainTrust = pindexNew->nChainTrust;
     nTimeBestReceived = GetTime();
     nTransactionsUpdated++;
-    //printf("SetBestChain: new best=%s  height=%d  log2_trust=%.8g  moneysupply=%s  tx=%lu  date=%s progress=%f\n",//zxb去掉logo
+    //zxb去掉logo
+    /*
+    printf("SetBestChain: new best=%s  height=%d  log2_trust=%.8g  moneysupply=%s  tx=%lu  date=%s progress=%f\n",
       hashBestChain.ToString().c_str(), nBestHeight, log(nBestChainTrust.getdouble())/log(2.0), FormatMoney(pindexBest->nMoneySupply).c_str(),
       (unsigned long)pindexNew->nChainTx,
       DateTimeStrFormat("%Y-%m-%d %H:%M:%S", pindexBest->GetBlockTime()).c_str(),
       Checkpoints::GuessVerificationProgress(pindexBest));
+    */
 
     // Check the version of the last 100 blocks to see if we need to upgrade:
     if (!fIsInitialDownload)
@@ -4960,8 +4963,8 @@ CBlockTemplate* CreateNewBlock(CReserveKey& reservekey, CWallet* pwallet, bool f
         pblock->nBits = GetNextTargetRequired(pindexPrev, true);
         CTransaction txCoinStake;
         int64 nSearchTime = txCoinStake.nTime; // search to current time
-          printf("anSearchTime==%ld\n" ,nSearchTime);
-           printf("nLastCoinStakeSearchTime==%ld\n" ,nLastCoinStakeSearchTime);
+          printf("anSearchTime==%lld\n" ,nSearchTime);
+           printf("nLastCoinStakeSearchTime==%lld\n" ,nLastCoinStakeSearchTime);
         if (nSearchTime > nLastCoinStakeSearchTime)
         {
             if (pwallet->CreateCoinStake(*pwallet, pblock->nBits, nSearchTime-nLastCoinStakeSearchTime, txCoinStake))
@@ -4979,7 +4982,7 @@ CBlockTemplate* CreateNewBlock(CReserveKey& reservekey, CWallet* pwallet, bool f
         }
         else
         {
-                printf("have not last searchTime==%ld\n" ,nLastCoinStakeSearchTime);
+                printf("have not last searchTime==%lld\n" ,nLastCoinStakeSearchTime);
         }
     }
 
@@ -5190,8 +5193,8 @@ CBlockTemplate* CreateNewBlock(CReserveKey& reservekey, CWallet* pwallet, bool f
         if (pblock->IsProofOfWork())
         {
                 int64 reward =  GetProofOfWorkReward(pblock->nBits);
-            printf("POW reward===%d\n", reward);
-             printf("POW GetBalance===%d\n", pwallet->GetBalance()); 
+            printf("POW reward===%lld\n", reward);
+             printf("POW GetBalance===%lld\n", pwallet->GetBalance()); 
           printf("POW pindexPrev.nHeight===%d\n", pindexPrev->nHeight);
            // printf("POW GetImmatureBalance===%d\n", pwallet->GetImmatureBalance());
           

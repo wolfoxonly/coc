@@ -11,8 +11,8 @@ export TRAVIS_REPO_SLUG="username/reponame"
 export TRAVIS_JOB_NUMBER=JobNo.1
 
 # Matrix
-matrix="Win32Gui"
-#matrix="Crowncoind"
+#matrix="Win32Gui"
+matrix="Crowncoind"
 #matrix="Cross-Mac"
 
 # For `matrix="Cross-Mac"'
@@ -95,7 +95,7 @@ elif [ "$matrix" = "Crowncoind" ]; then
 	export RUN_TESTS=false
 	export GOAL="install"
 	export USE_SHELL="/bin/bash"
-	export BITCOIN_CONFIG="--disable-debug --without-libs --without-gui --disable-gui --disable-tests --disable-bench --enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
+	export BITCOIN_CONFIG="--enable-debug --without-libs --without-gui --disable-gui --disable-tests --disable-bench --enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
 
 # undefined
 else 
