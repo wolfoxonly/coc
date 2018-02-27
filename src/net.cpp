@@ -37,6 +37,7 @@
 using namespace std;
 using namespace boost;
 
+//Harry: set as many as you wish.
 static const int MAX_OUTBOUND_CONNECTIONS = 32;
 
 bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOutbound = NULL, const char *strDest = NULL, bool fOneShot = false);
@@ -1283,6 +1284,7 @@ unsigned int pnSeed[] =
     0xe9bb6044, 
     0xedb24a4c,
 */
+/*
         0xAD5A6827,
         0x33284D78,
         0x59746827,
@@ -1291,7 +1293,7 @@ unsigned int pnSeed[] =
         0x2FDF5B2F,
         0xCBD45B2F,
         0xFAE5342F,
-};
+*/};
 
 
 
@@ -1389,11 +1391,15 @@ void ThreadOpenConnections()
         int nTries = 0;
         loop
         {
+            DumpAddresses();
             // use an nUnkBias between 10 (no outgoing connections) and 90 (8 outgoing connections)
             CAddress addr = addrman.Select(10 + min(nOutbound,8)*10);
 
             // if we selected an invalid address, restart
-            if (!addr.IsValid() || setConnected.count(addr.GetGroup()) || IsLocal(addr))
+            if (!addr.IsValid()
+                // Harry: Policy: one address per group
+                //|| setConnected.count(addr.GetGroup())
+                || IsLocal(addr))
                 break;
 
             // If we didn't find an appropriate destination after trying 100 addresses fetched from addrman,
