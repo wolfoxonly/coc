@@ -1508,28 +1508,19 @@ bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOu
     // Initiate outbound network connection
     //
     boost::this_thread::interruption_point();
-	printf("ljn node judge fail net.cpp 1508");
     if (!strDest)
         if (IsLocal(addrConnect) ||
             FindNode((CNetAddr)addrConnect) || CNode::IsBanned(addrConnect) ||
             FindNode(addrConnect.ToStringIPPort().c_str()))
-        	{
-        	printf("ljn node judge fail net.cpp 1513");//zxb,ljn
-		return false;
-            	}
+            return false;
     if (strDest && FindNode(strDest))
-    	{
-    	printf("ljn node judge fail net.cpp 1518");//zxb,ljn
         return false;
-    	}
+
     CNode* pnode = ConnectNode(addrConnect, strDest);
     boost::this_thread::interruption_point();
 
     if (!pnode)
-        {
-    	printf("ljn node judge fail net.cpp 1525");//zxb,ljn
         return false;
-    	}
     if (grantOutbound)
         grantOutbound->MoveTo(pnode->grantOutbound);
     pnode->fNetworkNode = true;
