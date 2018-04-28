@@ -39,8 +39,14 @@ namespace Checkpoints
     static MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
         ( 0, hashGenesisBlockOfficial )//<ZXB>
-         ( 41786, uint256("0x0000000000089ee1e4a663e125e762a12a05f578a8132a10ef0fb03826e6b035"))
+         ( 41786, uint256("0x0000000000089ee1e4a663e125e762a12a05f578a8132a10ef0fb03826e6b035"))         
+         ( 41840, uint256("0x95afb3468d4435d8e2be84c915a4d66701c7b96632dd20de49ed245939cd6515"))
          ( 43847, uint256("0x000000000007564776612c9545247be1f81ecde9934e1d8b8ac836dd7fbd58e6"))
+		 ( 50000, uint256("0x0000000000077937be89414880970dfbc88df605ff77ed4024e45d29c4887cc7"))         
+         ( 70000, uint256("0x72197e18c8c4b156f5f721b51be1b62925c379202445c502f3b6d8c98ff45482"))
+         ( 84950, uint256("0x00000000000001ec66f5204982ac1a5f305417d4e4c1fe69ef2cd8ed0edcf586"))//coingo.vip
+         
+         
         // ( 99999, uint256("0x27fd5e1de16a4270eb8c68dee2754a64da6312c7c3a0e99a7e6776246be1ee3f"))
         // (219999, uint256("0xab0dad4b10d2370f009ed6df6effca1ba42f01d5070d6b30afeedf6463fbe7a2"))
         // (336000, uint256("0x4d261cef6e61a5ed8325e560f1d6e36f4698853a4c7134677f47a1d1d842bdf6"))

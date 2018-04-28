@@ -7,8 +7,7 @@ src/Crowncoin-cli
 src/Crowncoin-config.h
 src/Crowncoind
 
-depends/sdk-sources
-depends/sources
+
 dist/
 dpi36.background.tiff
 dpi72.background.tiff
